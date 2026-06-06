@@ -1,66 +1,140 @@
-# Pixel Art Quiz Game (Pixel Art 风格闯关问答游戏)
+<p align="center">
+  <img src="https://img.shields.io/badge/version-1.0.0-blue" alt="v1.0"/>
+  <img src="https://img.shields.io/badge/license-MIT-green" alt="MIT"/>
+  <img src="https://img.shields.io/badge/React-18+-61DAFB" alt="React 18+"/>
+  <img src="https://img.shields.io/badge/Vite-5+-646CFF" alt="Vite 5+"/>
+  <img src="https://img.shields.io/github/stars/huajielong/pixel-game?style=social" alt="Stars"/>
+  <img src="https://img.shields.io/badge/Backend-Google%20Sheets%20%2B%20GAS-yellow" alt="GAS Backend"/>
+</p>
 
-这是一个基于 React + Vite 开发的 Pixel Art 风格问答游戏。后台使用 Google Sheets 存储题目和记录成绩，通过 Google Apps Script (GAS) 提供 API 服务。
+<h1 align="center">🎮 Pixel Art Quiz Game</h1>
+<p align="center"><b>像素风闯关问答游戏 — React + Vite + Google Sheets 全栈小游戏</b></p>
+<p align="center">
+  🎨 像素复古 · 📝 动态题库 · 🏆 成绩排名 · ☁️ 零服务器
+</p>
 
-## 🚀 快速开始 / Quick Start
-
-### 1. 配置 Google Sheets (后端数据库)
-
-1.  创建一个新的 **Google Sheet**。
-2.  将第一个工作表重命名为 `题目`。
-3.  创建第二个工作表并重命名为 `回答`。
-4.  **设置表头 (第一行)**：
-    *   **题目** 工作表: `ID` | `Question` | `Option A` | `Option B` | `Option C` | `Option D` | `Answer`
-    *   **回答** 工作表: `ID` | `闯关次数` | `总分` | `最高分` | `第一次通关分数` | `通关次数` | `最近游玩时间`
-
-### 2. 配置 Google Apps Script (后端 API)
-
-1.  在 Google Sheet 中，点击菜单栏的 **Extensions (扩展程序) > Apps Script (Apps 脚本)**。
-2.  清空默认代码，将本项目根目录下的 `gas-backend.js` 文件内容完整复制粘贴进去。
-3.  **保存** (Ctrl+S)。
-4.  **设置环境变量 (脚本属性)**:
-    *   点击左侧侧边栏的 **Project Settings (项目设置)** (齿轮图标)。
-    *   滚动到 **Script Properties (脚本属性)**，点击 **Add script property (添加脚本属性)**。
-    *   添加以下属性：
-        *   `PASS_THRESHOLD`: `3` (通过门槛，答对几题算过关)
-        *   `QUESTION_COUNT`: `5` (每次游戏抽取的题目数量)
-5.  **部署为 Web 应用**:
-    *   点击右上角 **Deploy (部署) > New deployment (新建部署)**。
-    *   **Select type (选择类型)**: Web app (Web 应用)。
-    *   **Description (描述)**: `v1` (任意)。
-    *   **Execute as (执行身份)**: `Me` (我)。
-    *   **Who has access (谁可以访问)**: `Anyone` (任何人) **<-- 重要！必须选这个，否则前端跨域会失败。**
-    *   点击 **Deploy (部署)**。
-    *   复制生成的 **Web App URL** (以 `https://script.google.com/.../exec` 结尾)。
-
-### 3. 配置前端项目
-
-1.  在项目根目录找到 `.env` 文件 (如果没有则复制 `.env.example` 为 `.env`)。
-2.  填入你的 Web App URL:
-    ```env
-    VITE_GOOGLE_APP_SCRIPT_URL=https://script.google.com/macros/s/你的_SCRIPT_ID/exec
-    ```
-3.  安装依赖并启动:
-    ```bash
-    npm install
-    npm run dev
-    ```
+<p align="center">
+  <a href="#-快速开始">🚀 快速开始</a> •
+  <a href="#-功能特性">⚡ 功能特性</a> •
+  <a href="#-配置指南">⚙️ 配置指南</a> •
+  <a href="#-常见问题">❓ 常见问题</a>
+</p>
 
 ---
 
-## 🧪 测试题库 (生成式 AI 基础知识)
+## 🤔 想做个互动问答游戏但不想搭服务器？
 
-请直接复制以下 10 道题目数据粘贴到你的 Google Sheet `题目` 工作表的 **A2:G11** 区域 (保留第一行表头)。
+做一个 Web 问答游戏需要后端、数据库、部署……门槛不低：
 
-| ID (A列) | Question (B列) | Option A (C列) | Option B (D列) | Option C (E列) | Option D (F列) | Answer (G列) |
-| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| 1 | 什么是 LLM 的全称？ | Large Language Model | Long Learning Machine | Little Logic Model | Linear Layer Matrix | A |
-| 2 | 生成式 AI 主要用于哪种任务？ | 仅进行数据分类 | 创造新的内容（文本、图像等） | 仅仅存储数据库 | 物理机器人控制 | B |
-| 3 | ChatGPT 是由哪家公司开发的？ | Google | Meta | OpenAI | Microsoft | C |
-| 4 | 在 AI 绘图中，"Prompt" 指的是什么？ | 绘图软件的笔刷 | 生成图片的提示词 | 显卡的型号 | AI 的名字 | B |
-| 5 | Transformer 架构最初是被提出用于什么领域的？ | 图像识别 | 自然语言处理 (NLP) | 自动驾驶 | 股票预测 | B |
-| 6 | 以下哪个不是常见的文生图模型？ | Midjourney | Stable Diffusion | DALL-E 3 | Excel | D |
-| 7 | "Hallucination" (幻觉) 在 AI 领域通常指什么？ | AI 拥有了自我意识 | AI 变得非常聪明 | AI 生成了看似合理但实际上错误的信息 | AI 拒绝回答问题 | C |
-| 8 | 训练大型语言模型通常需要什么硬件支持？ | 普通家用 CPU | 高性能 GPU (如 NVIDIA H100) | 单片机 | 机械硬盘 | B |
-| 9 | 什么是 RAG (Retrieval-Augmented Generation)？ | 检索增强生成 | 随机自动生成 | 递归算法生成 | 机器人自动引导 | A |
-| 10 | 哪个参数通常用于控制 LLM 输出的随机性？ | Temperature (温度) | Voltage (电压) | Pressure (压力) | Speed (速度) | A |
+| 你可能遇到的问题 | Pixel Art Quiz Game 帮你解决 |
+|:-----------------|:---------------------------|
+| ❓ 不想买服务器、配置数据库 | ✅ **零服务器架构** — Google Sheets + GAS 当后端 |
+| ❓ 开发配置太复杂 | ✅ **Vite 极速启动** — 秒级热更新 |
+| ❓ 题目管理麻烦 | ✅ **Google Sheets 管理** — 直接编辑表格修改题库 |
+| ❓ 游戏不够有趣 | ✅ **像素风复古 UI** — 8-bit 风格的视觉体验 |
+| ❓ 成绩需要记录 | ✅ **自动记录** — 闯关次数、最高分、通关率一应俱全 |
+
+---
+
+## 🚀 快速开始
+
+### 环境要求
+
+| 依赖 | 版本 |
+|:-----|:----:|
+| Node.js | 18+ |
+| npm | 9+ |
+
+### 安装
+
+```bash
+git clone https://github.com/huajielong/pixel-game.git
+cd pixel-game
+npm install
+```
+
+### 配置后端（Google Sheets）
+
+1. 创建 **Google Sheet**，建两个工作表：`题目` 和 `回答`
+2. 将 [`gas-backend.js`](gas-backend.js) 部署为 Google Apps Script Web App
+3. 复制生成的 URL 到 `.env`：
+
+```env
+VITE_GOOGLE_APP_SCRIPT_URL=https://script.google.com/macros/s/你的_SCRIPT_ID/exec
+```
+
+### 运行
+
+```bash
+npm run dev
+```
+
+---
+
+## ⚡ 功能特性
+
+| 功能 | 说明 |
+|:-----|:------|
+| 🎨 **像素风 UI** | 8-bit 复古视觉风格，满满的怀旧感 |
+| 📝 **动态题库** | Google Sheets 管理题目，随时增删改 |
+| 🏆 **成绩记录** | 自动保存闯关次数、最高分、通关率 |
+| 🔀 **随机抽题** | 每次游戏随机抽取题目，不重复 |
+| ☁️ **零服务器** | Google Apps Script 无服务器架构 |
+| ⚡ **Vite 构建** | 极速冷启动和热更新 |
+| 🌐 **一键部署** | 支持 Vercel / Netlify / GitHub Pages |
+
+---
+
+## 🏗️ 技术栈
+
+| 技术 | 用途 |
+|:-----|:------|
+| **React 18** | 前端 UI 框架 |
+| **Vite 5** | 构建工具 |
+| **Google Sheets** | 题库数据库 |
+| **Google Apps Script** | 后端 API 服务 |
+| **Pixel Art CSS** | 复古像素视觉风格 |
+
+---
+
+## ❓ 常见问题
+
+<details>
+<summary><b>需要自己的服务器吗？</b></summary>
+完全不需要。前端可部署到 Vercel/Netlify/GitHub Pages 等免费平台，后端使用 Google Sheets + Apps Script，零成本。
+</details>
+
+<details>
+<summary><b>如何修改题目？</b></summary>
+直接在 Google Sheet 的「题目」工作表中编辑即可，无需修改代码。支持增删改题目和选项。
+</details>
+
+<details>
+<summary><b>支持移动端吗？</b></summary>
+支持。使用响应式设计，在手机和电脑上都能良好显示。
+</details>
+
+<details>
+<summary><b>可以部署到自己的域名吗？</b></summary>
+可以。前端是纯静态资源，可部署到任何静态托管服务，只需配置好 `.env` 中的 GAS URL 即可。
+</details>
+
+---
+
+## 🤝 贡献
+
+欢迎提交 Issue 或 Pull Request！
+
+<a href="https://github.com/huajielong/pixel-game/graphs/contributors">
+  <img src="https://img.shields.io/badge/contributions-welcome-brightgreen" alt="Contributions Welcome"/>
+</a>
+
+## 📄 License
+
+MIT © [huajielong](https://github.com/huajielong)
+
+---
+
+<p align="center">
+  ⭐ 如果觉得好玩，点个 Star 支持一下吧！
+</p>
