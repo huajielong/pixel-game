@@ -20,6 +20,8 @@
   <a href="#-faq">❓ FAQ</a>
 </p>
 
+> [中文说明](README.zh.md)
+
 ---
 
 ## 🤔 Want to build an interactive quiz game without setting up a server?
@@ -138,5 +140,3 @@ MIT © [huajielong](https://github.com/huajielong)
 <p align="center">
   ⭐ If you like it, give it a Star!
 </p>
-
-> [中文说明](README.zh.md)
