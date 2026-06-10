@@ -1,9 +1,3 @@
-<p align="center">
-  ⭐ If you like it, give it a Star!
-</p>
-
----
-
 <h1 align="center">🎮 Pixel Quest — 像素风闯关问答游戏</h1>
 <p align="center"><b>像素风闯关问答游戏 — React+Vite前端，Google Sheets+GAS无服务器后端，零成本部署</b></p>
 <p align="center">
